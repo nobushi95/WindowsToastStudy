@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 
 #include "DesktopNotificationManagerCompat.h"
 #include <NotificationActivationCallback.h>
@@ -28,6 +28,37 @@ CoCreatableClass(NotificationActivator);
 
 int main()
 {
+    std::cout << "Send Toast" << std::endl;
+
     // Register activator type
     auto hr = DesktopNotificationManagerCompat::RegisterActivator();
+
+    // Construct XML
+    ComPtr<IXmlDocument> doc;
+    auto hr = DesktopNotificationManagerCompat::CreateXmlDocumentFromString(
+        L"<toast><visual><binding template='ToastGeneric'><text>Hello world</text></binding></visual></toast>",
+        &doc);
+    if (SUCCEEDED(hr))
+    {
+        // See full code sample to learn how to inject dynamic text, buttons, and more
+
+        // Create the notifier
+        // Desktop apps must use the compat method to create the notifier.
+        ComPtr<IToastNotifier> notifier;
+        hr = DesktopNotificationManagerCompat::CreateToastNotifier(&notifier);
+        if (SUCCEEDED(hr))
+        {
+            // Create the notification itself (using helper method from compat library)
+            ComPtr<IToastNotification> toast;
+            hr = DesktopNotificationManagerCompat::CreateToastNotification(doc.Get(), &toast);
+            if (SUCCEEDED(hr))
+            {
+                // And show it!
+                hr = notifier->Show(toast.Get());
+            }
+        }
+    }
+    std::cout << "enter any charactor to finish ..." << std::endl;
+    std::string finish;
+    std::cin >> finish;
 }
