@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 
 #include "DesktopNotificationManagerCompat.h"
 #include <NotificationActivationCallback.h>
@@ -28,5 +28,6 @@ CoCreatableClass(NotificationActivator);
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    // Register activator type
+    auto hr = DesktopNotificationManagerCompat::RegisterActivator();
 }
