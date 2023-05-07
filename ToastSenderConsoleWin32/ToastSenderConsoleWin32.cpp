@@ -20,6 +20,7 @@ public:
         ULONG dataCount) override
     {
         // TODO: Handle activation
+        return S_OK;
     }
 };
 
@@ -31,7 +32,7 @@ int main()
     std::cout << "Send Toast" << std::endl;
 
     // Register activator type
-    auto hr = DesktopNotificationManagerCompat::RegisterActivator();
+    auto hr1 = DesktopNotificationManagerCompat::RegisterActivator();
 
     // Construct XML
     ComPtr<IXmlDocument> doc;
